@@ -15,7 +15,7 @@ public class TeamService {
 	@Autowired
 	private TeamRepository teamRepository;
 
-	public List<TeamDTO> getTeamsByUser(int userId) {
+	public List<TeamDTO> getTeamsByUserId(int userId) {
 		List<Team> teams = teamRepository.findTeamsByUserId(userId);
 
 		// DTO にレスポンスデータを格納

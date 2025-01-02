@@ -20,6 +20,15 @@ public class CategoryController {
 	// GET http://localhost:8080/addSchedule/view/{team_id}
 	@GetMapping("/addSchedule/view/{teamId}")
 	public ResponseEntity<List<CategoryDTO>> getCategories(@PathVariable int teamId) {
-		return ResponseEntity.status(HttpStatus.OK).build();
+		try {
+			List<CategoryDTO> categoryDTOs = categoryService.getCategoriesByTeamId(teamId);
+
+			// ステータス: 200 OK
+			// ボディ: ユーザが参加しているカテゴリ一覧
+			return ResponseEntity.status(HttpStatus.OK).body(categoryDTOs);
+		} catch (Exception error) {
+			// ステータス: 500 Internal Server Error
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 }

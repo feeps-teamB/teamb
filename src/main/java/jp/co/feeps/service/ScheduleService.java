@@ -18,7 +18,7 @@ public class ScheduleService {
 	private CategoryRepository categoryRepository;
 
 	public void saveSchedule(ScheduleForm scheduleForm) {
-		// プロキシを取得
+		// カテゴリのプロキシを取得
 		Category category = categoryRepository.getReferenceById(scheduleForm.getCategoryId());
 
 		// ScheduleFormをScheduleEntityに変換
@@ -27,6 +27,8 @@ public class ScheduleService {
 		schedule.setDescription(scheduleForm.getDescription());
 		schedule.setStartDate(scheduleForm.getStartDate());
 		schedule.setEndDate(scheduleForm.getEndDate());
+		// デフォルトの値を格納
+		schedule.setIsCompleted(false);
 		schedule.setCategory(category);
 
 		scheduleRepository.save(schedule);

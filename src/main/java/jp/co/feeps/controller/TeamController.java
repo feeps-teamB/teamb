@@ -20,10 +20,15 @@ public class TeamController {
 	// GET http://localhost:8080/teamSelectSchedule/view/{userId}
 	@GetMapping("/teamSelectSchedule/view/{userId}")
 	public ResponseEntity<List<TeamDTO>> getTeams(@PathVariable int userId) {
-		List<TeamDTO> teamDTOs = teamService.getTeamsByUser(userId);
+		try {
+			List<TeamDTO> teamDTOs = teamService.getTeamsByUserId(userId);
 
-		// ステータス: 200 OK
-		// ボディ：ユーザが参加しているチーム一覧
-		return ResponseEntity.status(HttpStatus.OK).body(teamDTOs);
+			// ステータス: 200 OK
+			// ボディ：ユーザが参加しているチーム一覧
+			return ResponseEntity.status(HttpStatus.OK).body(teamDTOs);
+		} catch (Exception error) {
+			// ステータス: 500 Internal Server Error
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 }
