@@ -18,11 +18,9 @@ public class UserTeam {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userTeamId;
-
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
 	private User user;
-
 	@ManyToOne
 	@JoinColumn(name = "team_id", referencedColumnName = "teamId", nullable = false)
 	private Team team;
