@@ -6,8 +6,6 @@ import java.util.Date;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,7 +37,6 @@ public class Schedule {
 	private Boolean isCompleted;
 	@ManyToOne
 	@JoinColumn(name = "category_id", referencedColumnName = "categoryId", nullable = false)
-	@JsonIgnore
 	private Category category;
 	@CreationTimestamp
 	@Column

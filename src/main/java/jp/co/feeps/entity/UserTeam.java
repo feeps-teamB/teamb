@@ -1,7 +1,5 @@
 package jp.co.feeps.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,10 +20,8 @@ public class UserTeam {
 	private int userTeamId;
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
-	@JsonIgnore
 	private User user;
 	@ManyToOne
 	@JoinColumn(name = "team_id", referencedColumnName = "teamId", nullable = false)
-	@JsonIgnore
 	private Team team;
 }
