@@ -6,6 +6,8 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,6 +36,7 @@ public class Category {
 	@JoinColumn(name = "team_id", referencedColumnName = "teamId", nullable = false)
 	private Team team;
 	@OneToMany(mappedBy = "category")
+	@JsonIgnore
 	private List<Schedule> schedules;
 	@CreationTimestamp
 	@Column(nullable = false, updatable = false)
