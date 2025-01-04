@@ -34,6 +34,7 @@ public class Category {
 	private String color;
 	@ManyToOne
 	@JoinColumn(name = "team_id", referencedColumnName = "teamId", nullable = false)
+	@JsonIgnore
 	private Team team;
 	@OneToMany(mappedBy = "category")
 	@JsonIgnore

@@ -31,6 +31,8 @@ public class ScheduleService {
 			scheduleDTO.setEndDate(schedule.getEndDate());
 			scheduleDTO.setIsCompleted(schedule.getIsCompleted());
 			scheduleDTO.setCategory(schedule.getCategory());
+			scheduleDTO.setCreatedAt(schedule.getCreatedAt());
+			scheduleDTO.setUpdatedAt(schedule.getUpdatedAt());
 
 			return scheduleDTO;
 		});

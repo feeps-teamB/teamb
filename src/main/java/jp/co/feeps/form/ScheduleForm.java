@@ -1,6 +1,6 @@
 package jp.co.feeps.form;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import lombok.Setter;
 public class ScheduleForm {
 	private String title;
 	private String description;
-	private Date startDate;
-	private Date endDate;
+	private LocalDate startDate;
+	private LocalDate endDate;
 	private int categoryId;
 }

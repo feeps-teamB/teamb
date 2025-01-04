@@ -22,6 +22,20 @@ public class ScheduleController {
 	@Autowired
 	private ScheduleService scheduleService;
 
+	// POST http://localhost:8080/addScheduleSave
+	@PostMapping("/addScheduleSave")
+	public ResponseEntity<Void> create(@RequestBody ScheduleForm scheduleForm) {
+		try {
+			scheduleService.saveSchedule(scheduleForm);
+
+			// ステータス: 201 Created
+			return ResponseEntity.status(HttpStatus.CREATED).build();
+		} catch (Exception error) {
+			// ステータス: 500 Internal Server Error
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
 	// GET http://localhost:8080/scheduleDetail/view/{schedule_id}
 	@GetMapping("/scheduleDetail/view/{scheduleId}")
 	public ResponseEntity<ScheduleDTO> show(@PathVariable int scheduleId) {
@@ -37,20 +51,6 @@ public class ScheduleController {
 				// ステータス: 404 Not Found
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
-		} catch (Exception error) {
-			// ステータス: 500 Internal Server Error
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
-	}
-
-	// POST http://localhost:8080/addScheduleSave
-	@PostMapping("/addScheduleSave")
-	public ResponseEntity<Void> create(@RequestBody ScheduleForm scheduleForm) {
-		try {
-			scheduleService.saveSchedule(scheduleForm);
-
-			// ステータス: 201 Created
-			return ResponseEntity.status(HttpStatus.CREATED).build();
 		} catch (Exception error) {
 			// ステータス: 500 Internal Server Error
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

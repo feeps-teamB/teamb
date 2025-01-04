@@ -5,7 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TeamDTO {
-	private int teamId;
+public class CategorySelectDTO {
+	private int categoryId;
 	private String name;
+	private String color;
 }
