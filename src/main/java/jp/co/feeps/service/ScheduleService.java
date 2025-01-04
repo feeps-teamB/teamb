@@ -1,6 +1,9 @@
 package jp.co.feeps.service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,32 @@ public class ScheduleService {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
+
+	public List<ScheduleDTO> getSchedulesByUserIdAndDateRange(int userId, int year, int month) {
+		// 指定された年と月から startDate と endDate を計算
+		LocalDate startDate = LocalDate.of(year, month, 1); // 月の初日
+		LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth()); // 月の最終日
+
+		List<Schedule> schedules = scheduleRepository.findByUserIdAndDateRange(userId, startDate, endDate);
+
+		// DTO にレスポンスデータを格納
+		List<ScheduleDTO> scheduleDTOs = schedules.stream().map(schedule -> {
+			ScheduleDTO scheduleDTO = new ScheduleDTO();
+			scheduleDTO.setScheduleId(schedule.getScheduleId());
+			scheduleDTO.setTitle(schedule.getTitle());
+			scheduleDTO.setDescription(schedule.getDescription());
+			scheduleDTO.setStartDate(schedule.getStartDate());
+			scheduleDTO.setEndDate(schedule.getEndDate());
+			scheduleDTO.setIsCompleted(schedule.getIsCompleted());
+			scheduleDTO.setCategory(schedule.getCategory());
+			scheduleDTO.setCreatedAt(schedule.getCreatedAt());
+			scheduleDTO.setUpdatedAt(schedule.getUpdatedAt());
+
+			return scheduleDTO;
+		}).collect(Collectors.toList());
+
+		return scheduleDTOs;
+	}
 
 	public Optional<ScheduleDTO> getSchedule(int scheduleId) {
 		// Optional の中身を DTO に変換
