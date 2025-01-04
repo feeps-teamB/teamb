@@ -1,7 +1,7 @@
 package jp.co.feeps.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -30,9 +30,9 @@ public class Schedule {
 	@Column(nullable = false)
 	private String description;
 	@Column(nullable = false)
-	private Date startDate;
+	private LocalDate startDate;
 	@Column(nullable = false)
-	private Date endDate;
+	private LocalDate endDate;
 	@Column(nullable = false)
 	private Boolean isCompleted;
 	@ManyToOne
