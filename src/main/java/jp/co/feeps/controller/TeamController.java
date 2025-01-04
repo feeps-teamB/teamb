@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.co.feeps.dto.TeamDTO;
+import jp.co.feeps.dto.TeamSelectDTO;
 import jp.co.feeps.service.TeamService;
 
 @RestController
@@ -21,13 +21,13 @@ public class TeamController {
 
 	// GET http://localhost:8080/teamSelectSchedule/view/{userId}
 	@GetMapping("/teamSelectSchedule/view/{userId}")
-	public ResponseEntity<List<TeamDTO>> getTeams(@PathVariable int userId) {
+	public ResponseEntity<List<TeamSelectDTO>> getTeams(@PathVariable int userId) {
 		try {
-			List<TeamDTO> teamDTOs = teamService.getTeamsByUserId(userId);
+			List<TeamSelectDTO> TeamSelectDTOs = teamService.getTeamsByUserId(userId);
 
 			// ステータス: 200 OK
 			// ボディ：ユーザが参加しているチーム一覧
-			return ResponseEntity.status(HttpStatus.OK).body(teamDTOs);
+			return ResponseEntity.status(HttpStatus.OK).body(TeamSelectDTOs);
 		} catch (Exception error) {
 			// ステータス: 500 Internal Server Error
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
