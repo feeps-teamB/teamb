@@ -23,10 +23,18 @@ public class ScheduleService {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
-	public List<ScheduleDTO> getSchedulesByUserIdAndDateRange(int userId, int year, int month) {
+	public List<ScheduleDTO> getSchedulesByUserIdAndDateRange(int userId, int year, int month, Integer day) {
 		// 指定された年と月から startDate と endDate を計算
-		LocalDate startDate = LocalDate.of(year, month, 1); // 月の初日
-		LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth()); // 月の最終日
+		LocalDate startDate;
+		LocalDate endDate;
+
+		if (day != null) {
+			startDate = LocalDate.of(year, month, day); // 指定の日付
+			endDate = startDate; // 同日を指定
+		} else {
+			startDate = LocalDate.of(year, month, 1); // 月の初日
+			endDate = startDate.withDayOfMonth(startDate.lengthOfMonth()); // 月の最終日
+		}
 
 		List<Schedule> schedules = scheduleRepository.findByUserIdAndDateRange(userId, startDate, endDate);
 

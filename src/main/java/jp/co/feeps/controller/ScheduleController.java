@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.feeps.dto.ScheduleDTO;
@@ -23,12 +24,12 @@ public class ScheduleController {
 	@Autowired
 	private ScheduleService scheduleService;
 
-	// GET http://localhost:8080/mainPage/view/{userId}/{year}/{month}
-	@GetMapping("/mainPage/view/{userId}/{year}/{month}")
+	// GET http://localhost:8080/calendar/view/{userId}/{year}/{month}
+	@GetMapping("/calendar/view/{userId}/{year}/{month}")
 	public ResponseEntity<List<ScheduleDTO>> index(@PathVariable int userId, @PathVariable int year,
-			@PathVariable int month) {
+			@PathVariable int month, @RequestParam(required = false) Integer day) {
 		try {
-			List<ScheduleDTO> scheduleDTOs = scheduleService.getSchedulesByUserIdAndDateRange(userId, year, month);
+			List<ScheduleDTO> scheduleDTOs = scheduleService.getSchedulesByUserIdAndDateRange(userId, year, month, day);
 
 			// ステータス: 200 OK
 			// ボディ: 選択したユーザが持ち、選択した期間に登録した期間が被るスケジュール一覧
