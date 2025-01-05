@@ -31,7 +31,7 @@ public class CategoryController {
 			List<CategorySelectDTO> categoryDTOs = categoryService.getCategoriesByTeamId(teamId);
 
 			// ステータス: 200 OK
-			// ボディ: ユーザが参加しているカテゴリ一覧
+			// ボディ: チームが保持しているカテゴリ一覧
 			return ResponseEntity.status(HttpStatus.OK).body(categoryDTOs);
 		} catch (Exception error) {
 			// ステータス: 500 Internal Server Error
@@ -62,7 +62,7 @@ public class CategoryController {
 			// Optional を用いて空の場合の処理分けを行う
 			if (categoryDTOOpt.isPresent()) {
 				// ステータス: 200 OK
-				// ボディ: ID に紐づいたスケジュール
+				// ボディ: 選択したカテゴリ
 				return ResponseEntity.ok(categoryDTOOpt.get());
 			} else {
 				// ステータス: 404 Not Found
