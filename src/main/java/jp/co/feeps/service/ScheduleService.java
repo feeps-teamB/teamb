@@ -28,6 +28,7 @@ public class ScheduleService {
 		LocalDate startDate;
 		LocalDate endDate;
 
+		// day の有無により月毎と日毎の取得を分ける
 		if (day != null) {
 			startDate = LocalDate.of(year, month, day); // 指定の日付
 			endDate = startDate; // 同日を指定
