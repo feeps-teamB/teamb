@@ -39,9 +39,9 @@ public class Schedule {
 	@JoinColumn(name = "category_id", referencedColumnName = "categoryId", nullable = false)
 	private Category category;
 	@CreationTimestamp
-	@Column
+	@Column(nullable = false, updatable = false)
 	private LocalDateTime createdAt;
 	@UpdateTimestamp
-	@Column
+	@Column(nullable = false)
 	private LocalDateTime updatedAt;
 }

@@ -19,8 +19,8 @@ public class TeamController {
 	@Autowired
 	private TeamService teamService;
 
-	// GET http://localhost:8080/teamSelectSchedule/view/{userId}
-	@GetMapping("/teamSelectSchedule/view/{userId}")
+	// GET http://localhost:8080/teamSelect/view/{userId}
+	@GetMapping("/teamSelect/view/{userId}")
 	public ResponseEntity<List<TeamSelectDTO>> getTeams(@PathVariable int userId) {
 		try {
 			List<TeamSelectDTO> TeamSelectDTOs = teamService.getTeamsByUserId(userId);

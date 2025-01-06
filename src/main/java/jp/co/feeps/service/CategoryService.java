@@ -11,6 +11,7 @@ import jp.co.feeps.dto.CategoryDTO;
 import jp.co.feeps.dto.CategorySelectDTO;
 import jp.co.feeps.entity.Category;
 import jp.co.feeps.entity.Team;
+import jp.co.feeps.form.CategoryEditForm;
 import jp.co.feeps.form.CategoryForm;
 import jp.co.feeps.repository.CategoryRepository;
 import jp.co.feeps.repository.TeamRepository;
@@ -69,7 +70,22 @@ public class CategoryService {
 		return categoryDTOOpt;
 	}
 
-	public Boolean deleteCategory(int categoryId) {
+	public void updateCategory(CategoryEditForm categoryEditForm) {
+		// チームのプロキシを取得
+		Team team = teamRepository.getReferenceById(categoryEditForm.getTeamId());
+
+		// CategoryEditForm を CategoryEntity に変換
+		Category category = new Category();
+		category.setCategoryId(categoryEditForm.getCategoryId());
+		category.setName(categoryEditForm.getName());
+		category.setColor(categoryEditForm.getColor());
+		category.setTeam(team);
+
+		categoryRepository.save(category);
+
+	}
+  
+  public Boolean deleteCategory(int categoryId) {
 		// categoryId の存在確認
 		if (categoryRepository.existsByCategoryId(categoryId)) {
 			categoryRepository.deleteById(categoryId);
@@ -78,5 +94,5 @@ public class CategoryService {
 		} else {
 			return false;
 		}
-	}
+  }
 }

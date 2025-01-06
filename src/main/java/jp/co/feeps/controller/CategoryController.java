@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.feeps.dto.CategoryDTO;
 import jp.co.feeps.dto.CategorySelectDTO;
+import jp.co.feeps.form.CategoryEditForm;
 import jp.co.feeps.form.CategoryForm;
 import jp.co.feeps.service.CategoryService;
 
@@ -32,7 +34,7 @@ public class CategoryController {
 			List<CategorySelectDTO> categoryDTOs = categoryService.getCategoriesByTeamId(teamId);
 
 			// ステータス: 200 OK
-			// ボディ: ユーザが参加しているカテゴリ一覧
+			// ボディ: チームが保持しているカテゴリ一覧
 			return ResponseEntity.status(HttpStatus.OK).body(categoryDTOs);
 		} catch (Exception error) {
 			// ステータス: 500 Internal Server Error
@@ -63,12 +65,26 @@ public class CategoryController {
 			// Optional を用いて空の場合の処理分けを行う
 			if (categoryDTOOpt.isPresent()) {
 				// ステータス: 200 OK
-				// ボディ: ID に紐づいたスケジュール
+				// ボディ: 選択したカテゴリ
 				return ResponseEntity.ok(categoryDTOOpt.get());
 			} else {
 				// ステータス: 404 Not Found
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
+		} catch (Exception error) {
+			// ステータス: 500 Internal Server Error
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+  
+  // PUT http://localhost:8080/categoryEdit
+	@PutMapping("/categoryEdit")
+	public ResponseEntity<Void> update(@RequestBody CategoryEditForm categoryEditForm) {
+		try {
+			categoryService.updateCategory(categoryEditForm);
+
+			// ステータス: 200 OK
+			return ResponseEntity.ok().build();
 		} catch (Exception error) {
 			// ステータス: 500 Internal Server Error
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -92,6 +108,6 @@ public class CategoryController {
 		} catch (Exception error) {
 			// ステータス: 500 Internal Server Error
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
-	}
+    }
+  }
 }
