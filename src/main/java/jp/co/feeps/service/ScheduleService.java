@@ -58,6 +58,7 @@ public class ScheduleService {
 	}
 
 	public Boolean deleteSchedule(int scheduleId) {
+		// scheduleId の存在確認
 		if (scheduleRepository.existsByScheduleId(scheduleId)) {
 			scheduleRepository.deleteById(scheduleId);
 

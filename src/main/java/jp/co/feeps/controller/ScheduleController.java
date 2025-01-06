@@ -64,6 +64,7 @@ public class ScheduleController {
 		try {
 			boolean isDeleted = scheduleService.deleteSchedule(scheduleId);
 
+			// 削除処理による処理分けを行う
 			if (isDeleted) {
 				// ステータス: 204 No Content
 				return ResponseEntity.noContent().build();
