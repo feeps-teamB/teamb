@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.feeps.dto.CategoryDTO;
 import jp.co.feeps.dto.CategorySelectDTO;
+import jp.co.feeps.form.CategoryEditForm;
 import jp.co.feeps.form.CategoryForm;
 import jp.co.feeps.service.CategoryService;
 
@@ -71,6 +73,21 @@ public class CategoryController {
 		} catch (Exception error) {
 			// ステータス: 500 Internal Server Error
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	// PUT http://localhost:8080/categoryEdit
+	@PutMapping("/categoryEdit")
+	public ResponseEntity<Void> update(@RequestBody CategoryEditForm categoryEditForm) {
+		try {
+			categoryService.updateCategory(categoryEditForm);
+
+			// ステータス: 200 OK
+			return ResponseEntity.ok().build();
+		} catch (Exception error) {
+			// ステータス: 500 Internal Server Error
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
 		}
 	}
 }
