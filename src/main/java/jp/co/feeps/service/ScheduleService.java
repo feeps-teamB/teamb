@@ -95,7 +95,7 @@ public class ScheduleService {
 
 		scheduleRepository.save(schedule);
 	}
-
+  
 	public void updateSchedule(ScheduleEditForm scheduleEditForm) {
 		// カテゴリのプロキシを取得
 		Category category = categoryRepository.getReferenceById(scheduleEditForm.getCategoryId());
@@ -112,4 +112,15 @@ public class ScheduleService {
 
 		scheduleRepository.save(schedule);
 	}
+
+	public Boolean deleteSchedule(int scheduleId) {
+		// scheduleId の存在確認
+		if (scheduleRepository.existsByScheduleId(scheduleId)) {
+			scheduleRepository.deleteById(scheduleId);
+
+			return true;
+		} else {
+			return false;
+		}
+  }
 }
