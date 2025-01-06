@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import jp.co.feeps.dto.ScheduleDTO;
 import jp.co.feeps.entity.Category;
 import jp.co.feeps.entity.Schedule;
+import jp.co.feeps.form.ScheduleEditForm;
 import jp.co.feeps.form.ScheduleForm;
 import jp.co.feeps.repository.CategoryRepository;
 import jp.co.feeps.repository.ScheduleRepository;
@@ -90,6 +91,23 @@ public class ScheduleService {
 		schedule.setEndDate(scheduleForm.getEndDate());
 		// デフォルトの値を格納
 		schedule.setIsCompleted(false);
+		schedule.setCategory(category);
+
+		scheduleRepository.save(schedule);
+	}
+
+	public void updateSchedule(ScheduleEditForm scheduleEditForm) {
+		// カテゴリのプロキシを取得
+		Category category = categoryRepository.getReferenceById(scheduleEditForm.getCategoryId());
+
+		// ScheduleEditForm を ScheduleEntity に変換
+		Schedule schedule = new Schedule();
+		schedule.setScheduleId(scheduleEditForm.getScheduleId());
+		schedule.setTitle(scheduleEditForm.getTitle());
+		schedule.setDescription(scheduleEditForm.getDescription());
+		schedule.setStartDate(scheduleEditForm.getStartDate());
+		schedule.setEndDate(scheduleEditForm.getEndDate());
+		schedule.setIsCompleted(scheduleEditForm.getIsCompleted());
 		schedule.setCategory(category);
 
 		scheduleRepository.save(schedule);
