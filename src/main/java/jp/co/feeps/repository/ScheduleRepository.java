@@ -11,4 +11,6 @@ import jp.co.feeps.entity.Schedule;
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
 	Optional<Schedule> findByScheduleId(@Param("scheduleId") int scheduleId);
+
+	Boolean existsByScheduleId(@Param("scheduleId") int scheduleId);
 }

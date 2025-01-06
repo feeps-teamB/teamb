@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +37,7 @@ public class ScheduleController {
 		}
 	}
 
-	// GET http://localhost:8080/scheduleDetail/view/{schedule_id}
+	// GET http://localhost:8080/scheduleDetail/view/{scheduleId}
 	@GetMapping("/scheduleDetail/view/{scheduleId}")
 	public ResponseEntity<ScheduleDTO> show(@PathVariable int scheduleId) {
 		try {
@@ -47,6 +48,25 @@ public class ScheduleController {
 				// ステータス: 200 OK
 				// ボディ: ID に紐づいたスケジュール
 				return ResponseEntity.ok(scheduleDTOOpt.get());
+			} else {
+				// ステータス: 404 Not Found
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+		} catch (Exception error) {
+			// ステータス: 500 Internal Server Error
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	// DELETE http://localhost:8080/deleteSchedule/{scheduleId}
+	@DeleteMapping("/deleteSchedule/{scheduleId}")
+	public ResponseEntity<Void> delete(@PathVariable int scheduleId) {
+		try {
+			boolean isDeleted = scheduleService.deleteSchedule(scheduleId);
+
+			if (isDeleted) {
+				// ステータス: 204 No Content
+				return ResponseEntity.noContent().build();
 			} else {
 				// ステータス: 404 Not Found
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

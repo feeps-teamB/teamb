@@ -56,4 +56,14 @@ public class ScheduleService {
 
 		scheduleRepository.save(schedule);
 	}
+
+	public Boolean deleteSchedule(int scheduleId) {
+		if (scheduleRepository.existsByScheduleId(scheduleId)) {
+			scheduleRepository.deleteById(scheduleId);
+
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
