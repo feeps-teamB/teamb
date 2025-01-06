@@ -8,9 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.feeps.dto.TeamSelectDTO;
+import jp.co.feeps.form.TeamForm;
 import jp.co.feeps.service.TeamService;
 
 @RestController
@@ -29,6 +32,20 @@ public class TeamController {
 			// ボディ：ユーザが参加しているチーム一覧
 			return ResponseEntity.status(HttpStatus.OK).body(TeamSelectDTOs);
 		} catch (Exception error) {
+			// ステータス: 500 Internal Server Error
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	// POST http://localhost:8080/addTeamSave/{userId}
+	@PostMapping("/addTeamSave/{userId}")
+	public ResponseEntity<Void> create(@PathVariable int userId, @RequestBody TeamForm teamForm) {
+		try {
+			teamService.saveTeam(userId, teamForm);
+
+			// ステータス: 201 Created
+			return ResponseEntity.status(HttpStatus.CREATED).build();
+		} catch (Exception e) {
 			// ステータス: 500 Internal Server Error
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
