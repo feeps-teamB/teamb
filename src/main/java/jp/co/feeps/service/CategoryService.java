@@ -82,5 +82,17 @@ public class CategoryService {
 		category.setTeam(team);
 
 		categoryRepository.save(category);
+
 	}
+  
+  public Boolean deleteCategory(int categoryId) {
+		// categoryId の存在確認
+		if (categoryRepository.existsByCategoryId(categoryId)) {
+			categoryRepository.deleteById(categoryId);
+
+			return true;
+		} else {
+			return false;
+		}
+  }
 }
