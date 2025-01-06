@@ -68,4 +68,15 @@ public class CategoryService {
 
 		return categoryDTOOpt;
 	}
+
+	public Boolean deleteCategory(int categoryId) {
+		// categoryId の存在確認
+		if (categoryRepository.existsByCategoryId(categoryId)) {
+			categoryRepository.deleteById(categoryId);
+
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
