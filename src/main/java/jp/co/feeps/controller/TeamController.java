@@ -39,13 +39,17 @@ public class TeamController {
 
 	// POST http://localhost:8080/addTeamSave/{userId}
 	@PostMapping("/addTeamSave/{userId}")
-	public ResponseEntity<Void> create(@PathVariable int userId, @RequestBody TeamForm teamForm) {
+	public ResponseEntity<String> create(@PathVariable int userId, @RequestBody TeamForm teamForm) {
 		try {
 			teamService.saveTeam(userId, teamForm);
 
 			// ステータス: 201 Created
 			return ResponseEntity.status(HttpStatus.CREATED).build();
-		} catch (Exception e) {
+		} catch (IllegalArgumentException error) {
+			// ステータス: 409 CONFLICT
+			// ボディ: チーム重複のメッセージ
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(error.getMessage());
+		} catch (Exception error) {
 			// ステータス: 500 Internal Server Error
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}

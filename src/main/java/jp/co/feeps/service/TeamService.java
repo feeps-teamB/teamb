@@ -10,6 +10,7 @@ import jp.co.feeps.dto.TeamSelectDTO;
 import jp.co.feeps.entity.Team;
 import jp.co.feeps.entity.User;
 import jp.co.feeps.entity.UserTeam;
+import jp.co.feeps.exception.ErrorMessages;
 import jp.co.feeps.form.TeamForm;
 import jp.co.feeps.repository.TeamRepository;
 import jp.co.feeps.repository.UserRepository;
@@ -42,6 +43,11 @@ public class TeamService {
 	}
 
 	public void saveTeam(int userId, TeamForm teamForm) {
+		// チーム名がすでに存在するか確認
+		if (teamRepository.existsByName(teamForm.getName())) {
+			throw new IllegalArgumentException(ErrorMessages.TEAM_NAME_ALREADY_EXISTS);
+		}
+
 		// TeamForm を TeamEntity に変換
 		Team team = new Team();
 		team.setName(teamForm.getName());
