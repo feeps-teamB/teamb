@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.feeps.dto.TeamDTO;
 import jp.co.feeps.dto.TeamSelectDTO;
+import jp.co.feeps.form.TeamEditForm;
 import jp.co.feeps.form.TeamForm;
 import jp.co.feeps.service.TeamService;
 
@@ -72,6 +74,24 @@ public class TeamController {
 				// ステータス: 404 Not Found
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
+		} catch (Exception error) {
+			// ステータス: 500 Internal Server Error
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	// PUT http://localhost:8080/teamEdit
+	@PutMapping("/teamEdit")
+	public ResponseEntity<String> update(@RequestBody TeamEditForm teamEditForm) {
+		try {
+			teamService.updateTeam(teamEditForm);
+
+			// ステータス: 200 OK
+			return ResponseEntity.ok().build();
+		} catch (IllegalArgumentException error) {
+			// ステータス: 409 CONFLICT
+			// ボディ: チーム重複のメッセージ
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(error.getMessage());
 		} catch (Exception error) {
 			// ステータス: 500 Internal Server Error
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
