@@ -22,4 +22,6 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
 	// 名前が変更される場合のみ存在チェックを実施
 	@Query("SELECT COUNT(t) > 0 FROM Team t WHERE t.name = :name AND t.teamId != :teamId")
 	boolean existsByNameAndNotTeamId(@Param("name") String name, @Param("teamId") int teamId);
+
+	boolean existsByTeamId(@Param("teamId") int teamId);
 }
