@@ -13,6 +13,7 @@ import jp.co.feeps.entity.Team;
 import jp.co.feeps.entity.User;
 import jp.co.feeps.entity.UserTeam;
 import jp.co.feeps.exception.ErrorMessages;
+import jp.co.feeps.form.TeamEditForm;
 import jp.co.feeps.form.TeamForm;
 import jp.co.feeps.repository.TeamRepository;
 import jp.co.feeps.repository.UserRepository;
@@ -79,5 +80,20 @@ public class TeamService {
 		userTeam.setTeam(newTeam);
 
 		userTeamRepository.save(userTeam);
+	}
+
+	public void updateTeam(TeamEditForm teamEditForm) {
+		// 名前が変更される場合にチーム名がすでに存在するか確認
+		if (teamRepository.existsByNameAndNotTeamId(teamEditForm.getName(), teamEditForm.getTeamId())) {
+			throw new IllegalArgumentException(ErrorMessages.TEAM_NAME_ALREADY_EXISTS);
+		}
+
+		// TeamEditForm を TeamEntity に変換
+		Team team = new Team();
+		team.setTeamId(teamEditForm.getTeamId());
+		team.setName(teamEditForm.getName());
+		team.setDescription(teamEditForm.getDescription());
+
+		teamRepository.save(team);
 	}
 }

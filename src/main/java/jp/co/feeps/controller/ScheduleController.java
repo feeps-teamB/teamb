@@ -88,7 +88,6 @@ public class ScheduleController {
 		} catch (Exception error) {
 			// ステータス: 500 Internal Server Error
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
 		}
 	}
 }
