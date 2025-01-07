@@ -22,4 +22,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
 			@Param("endDate") LocalDate endDate);
 
 	Optional<Schedule> findByScheduleId(@Param("scheduleId") int scheduleId);
+
+	Boolean existsByScheduleId(@Param("scheduleId") int scheduleId);
 }
