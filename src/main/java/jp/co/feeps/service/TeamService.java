@@ -1,11 +1,13 @@
 package jp.co.feeps.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jp.co.feeps.dto.TeamDTO;
 import jp.co.feeps.dto.TeamSelectDTO;
 import jp.co.feeps.entity.Team;
 import jp.co.feeps.entity.User;
@@ -40,6 +42,19 @@ public class TeamService {
 		}).collect(Collectors.toList());
 
 		return TeamSelectDTOs;
+	}
+
+	public Optional<TeamDTO> getTeam(int teamId) {
+		// Optional の中身を DTO に変換
+		Optional<TeamDTO> teamDTOOpt = teamRepository.findByTeamId(teamId).map(team -> {
+			TeamDTO teamDTO = new TeamDTO();
+			teamDTO.setName(team.getName());
+			teamDTO.setDescription(team.getDescription());
+
+			return teamDTO;
+		});
+
+		return teamDTOOpt;
 	}
 
 	public void saveTeam(int userId, TeamForm teamForm) {

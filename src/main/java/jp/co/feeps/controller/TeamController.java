@@ -1,6 +1,7 @@
 package jp.co.feeps.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import jp.co.feeps.dto.TeamDTO;
 import jp.co.feeps.dto.TeamSelectDTO;
 import jp.co.feeps.form.TeamForm;
 import jp.co.feeps.service.TeamService;
@@ -49,6 +51,27 @@ public class TeamController {
 			// ステータス: 409 CONFLICT
 			// ボディ: チーム重複のメッセージ
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(error.getMessage());
+		} catch (Exception error) {
+			// ステータス: 500 Internal Server Error
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	// GET http://localhost:8080/teamsDetail/view/{teamId}
+	@GetMapping("/teamsDetail/view/{teamId}")
+	public ResponseEntity<TeamDTO> show(@PathVariable int teamId) {
+		try {
+			Optional<TeamDTO> teamDTOOpt = teamService.getTeam(teamId);
+
+			// Optional を用いて空の場合の処理分けを行う
+			if (teamDTOOpt.isPresent()) {
+				// ステータス: 200 OK
+				// ボディ: 選択したチーム
+				return ResponseEntity.ok(teamDTOOpt.get());
+			} else {
+				// ステータス: 404 Not Found
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
 		} catch (Exception error) {
 			// ステータス: 500 Internal Server Error
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
