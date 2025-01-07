@@ -96,4 +96,15 @@ public class TeamService {
 
 		teamRepository.save(team);
 	}
+
+	public boolean deleteTeam(int teamId) {
+		// teamId の存在確認
+		if (teamRepository.existsByTeamId(teamId)) {
+			teamRepository.deleteById(teamId);
+
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
